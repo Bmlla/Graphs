@@ -40,6 +40,9 @@ type GrafoMatriz() =
         matrizArestas.[origem, destino] <- peso
         true
 
+    override this.existeAresta(origem :int, destino :int) =
+        matrizArestas.[origem, destino] <> 0
+
 
     member this.refazMatriz vertice =
         matrizArestas <- Array2D.init listaVertice.Length listaVertice.Length (fun linha coluna -> 0)

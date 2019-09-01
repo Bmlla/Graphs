@@ -16,5 +16,6 @@ let main argv =
     grafoM.inserirAresta(0,1,9)
     //grafoM.exibeVertices
     //printf "%s" <| grafoM.labelVertice(4)
-    grafoM.imprimirGrafo()
+    //grafoM.imprimirGrafo()
+    printf "%b" <| grafoM.existeAresta(0,1)
     0 // return an integer exit code

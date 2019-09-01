@@ -15,6 +15,8 @@ type Grafo(isDirecionado, isPonderado) =
 
     abstract member inserirAresta :arg:int * arg2:int * ?arg3:int -> bool
 
+    abstract member existeAresta :int * int -> bool
+
     member this.getLetraAlfabeto numeroReferencia =
         alfabeto.Chars numeroReferencia
 
