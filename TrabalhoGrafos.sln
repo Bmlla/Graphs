@@ -1,0 +1,17 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TrabalhoGrafos", "TrabalhoGrafos\TrabalhoGrafos.fsproj", "{DDF3A69E-9155-4AF9-8092-5E9B4B36FDFA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DDF3A69E-9155-4AF9-8092-5E9B4B36FDFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDF3A69E-9155-4AF9-8092-5E9B4B36FDFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDF3A69E-9155-4AF9-8092-5E9B4B36FDFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDF3A69E-9155-4AF9-8092-5E9B4B36FDFA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
