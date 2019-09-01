@@ -14,7 +14,7 @@ type GrafoMatriz() =
         true
 
 
-    override this.imprimirGrafo (_) =
+    override this.imprimirGrafo() =
         printf "%s" "  "
 
         for posicaoLetra in 0 .. listaVertice.Length - 1 do
@@ -35,7 +35,7 @@ type GrafoMatriz() =
         listaVertice.[indiceVertice]
 
 
-    member this.inserirArestas(origem :int, destino :int, ?peso :int) =
+    override this.inserirAresta(origem :int, destino :int, ?peso :int) =
         let peso = defaultArg peso 1
         matrizArestas.[origem, destino] <- peso
         true
