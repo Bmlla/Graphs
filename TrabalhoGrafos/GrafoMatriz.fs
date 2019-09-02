@@ -44,6 +44,15 @@ type GrafoMatriz() =
         matrizArestas.[origem, destino] <> 0
 
 
+    override this.retornarVizinhos(vertice :int) =
+        let mutable vizinhos = [||]
+
+        for linha in 0.. listaVertice.Length - 1 do
+            if matrizArestas.[linha, vertice] <> 0 then 
+                vizinhos <- Array.append vizinhos [|linha|]
+        vizinhos
+
+
     member this.refazMatriz vertice =
         matrizArestas <- Array2D.init listaVertice.Length listaVertice.Length (fun linha coluna -> 0)
         
