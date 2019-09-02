@@ -1,7 +1,7 @@
 ﻿module Grafo
 
 [<AbstractClass>]
-type Grafo(isDirecionado, isPonderado) =
+type Grafo(isDirecionado :bool, isPonderado :bool) =
     let alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
     member this.isDirecionado = isDirecionado
@@ -15,7 +15,7 @@ type Grafo(isDirecionado, isPonderado) =
 
     abstract member inserirAresta :arg:int * arg2:int * ?arg3:int -> bool
 
-    abstract member existeAresta :int * int -> bool
+    abstract member existeAresta :int * int -> int
 
     abstract member retornarVizinhos :int -> array<int>
 

@@ -3,7 +3,7 @@
 open Grafo
 
 type GrafoMatriz() =
-    inherit Grafo(false, false)
+    inherit Grafo(true, false)
 
     let mutable listaVertice = [||]
     let mutable matrizArestas = array2D [[||];[||]]
@@ -37,19 +37,36 @@ type GrafoMatriz() =
 
     override this.inserirAresta(origem :int, destino :int, ?peso :int) =
         let peso = defaultArg peso 1
-        matrizArestas.[origem, destino] <- peso
-        true
+
+        if not this.isPonderado && peso > 1 then
+            false
+        else
+            matrizArestas.[origem, destino] <- peso
+
+            if not this.isDirecionado then
+                matrizArestas.[destino, origem] <- peso
+            true
+
 
     override this.existeAresta(origem :int, destino :int) =
-        matrizArestas.[origem, destino] <> 0
-
+        let mutable peso = 0
+        if matrizArestas.[origem, destino] <> 0 then 
+            peso <- matrizArestas.[origem, destino]
+        peso
 
     override this.retornarVizinhos(vertice :int) =
         let mutable vizinhos = [||]
+        let mutable resultado = [||]
 
         for linha in 0.. listaVertice.Length - 1 do
-            if matrizArestas.[linha, vertice] <> 0 then 
-                vizinhos <- Array.append vizinhos [|linha|]
+            if not this.isDirecionado then
+                if matrizArestas.[linha, vertice] <> 0 then 
+                    resultado <- Array.append vizinhos [|linha|]
+            else
+                if matrizArestas.[vertice, linha] <> 0 then 
+                    resultado <- Array.append vizinhos [|linha|]
+
+            vizinhos <- resultado
         vizinhos
 
 
