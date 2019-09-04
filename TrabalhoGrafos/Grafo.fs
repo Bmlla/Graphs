@@ -19,6 +19,8 @@ type Grafo(isDirecionado :bool, isPonderado :bool) =
 
     abstract member retornarVizinhos :int -> array<int>
 
+    //abstract member introducaoGrafo :unit -> unit
+
     member this.getLetraAlfabeto numeroReferencia =
         alfabeto.Chars numeroReferencia
 

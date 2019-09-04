@@ -1,12 +1,15 @@
 ﻿module GrafoMatriz
 
+open System
 open Grafo
 
 type GrafoMatriz() =
-    inherit Grafo(true, false)
+    inherit Grafo(false, true)
 
     let mutable listaVertice = [||]
     let mutable matrizArestas = array2D [[||];[||]]
+   
+
 
     override this.inserirVertice (nomeVertice :string) =
         listaVertice <- Array.append listaVertice [|nomeVertice|]

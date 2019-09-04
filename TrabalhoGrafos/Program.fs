@@ -1,24 +1,39 @@
 ﻿
 open System
 open GrafoMatriz
+open GrafoLista
+open Interface
 
 [<EntryPoint>]
 let main argv =
 
-    let grafoM = new GrafoMatriz()
-    grafoM.inserirVertice("A")
-    grafoM.inserirVertice("B")
-    grafoM.inserirVertice("C")
-    grafoM.inserirVertice("D")
-    grafoM.inserirVertice("E")
+    //Interface.InterfaceUsuario.boasVindas
 
-    grafoM.inserirAresta(0,1,5)
-    grafoM.inserirAresta(1,2,9)
-    grafoM.inserirAresta(2,0,1)
-    grafoM.inserirAresta(0,3,9)
+
+
+    let grafoM = new GrafoMatriz()
+    let grafoL = new GrafoLista()
+
+    grafoL.inserirVertice("A")
+    grafoL.inserirVertice("B")
+    grafoL.inserirVertice("C")
+
+    grafoL.inserirAresta(0,1)
+    //printf "%s" <| grafoL.labelVertice(1)
+    grafoL.imprimirGrafo()
+    //grafoM.inserirVertice("A")
+    //grafoM.inserirVertice("B")
+    //grafoM.inserirVertice("C")
+    //grafoM.inserirVertice("D")
+    //grafoM.inserirVertice("E")
+
+    //grafoM.inserirAresta(0,1,5)
+    //grafoM.inserirAresta(1,2,9)
+    //grafoM.inserirAresta(2,0,9)
+    //grafoM.inserirAresta(0,3,9)
     //grafoM.exibeVertices
-    //printf "%s" <| grafoM.labelVertice(4)
-    grafoM.imprimirGrafo()
+   //printf "%s" <| grafoM.labelVertice(2)
+    //grafoM.imprimirGrafo()
     //printf "%d" <| grafoM.existeAresta(0,1)
     //printf "%A" <| grafoM.retornarVizinhos(0)
     0 // return an integer exit code
