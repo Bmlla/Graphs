@@ -21,8 +21,7 @@ type GrafoLista() =
 
     override this.imprimirGrafo() =
         listaArestas
-        |> Array.mapi(fun index elem -> elem)
-        |> Array.mapi(fun index elem -> printf "%A\n" elem.[index]) 
+        |> Array.mapi(fun index elem -> printf "%s -> %A\n" listaVertice.[index] elem) 
         true
 
     override this.labelVertice(indiceVertice :int) =
