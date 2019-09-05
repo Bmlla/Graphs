@@ -17,7 +17,9 @@ type Grafo(isDirecionado :bool, isPonderado :bool) =
 
     abstract member existeAresta :int * int -> int
 
-    abstract member retornarVizinhos :int -> array<int>
+    abstract member retornarVizinhos :int -> int[]
+
+    abstract member buscarEmLargura :int -> int[]
 
     //abstract member introducaoGrafo :unit -> unit
 

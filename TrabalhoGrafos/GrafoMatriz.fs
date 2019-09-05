@@ -57,6 +57,7 @@ type GrafoMatriz() =
             peso <- matrizArestas.[origem, destino]
         peso
 
+
     override this.retornarVizinhos(vertice :int) =
         let mutable vizinhos = [||]
         let mutable resultado = [||]
@@ -73,12 +74,17 @@ type GrafoMatriz() =
         vizinhos
 
 
+    override this.buscarEmLargura(indice :int) =
+    [|0|]
+
+
     member this.refazMatriz vertice =
         matrizArestas <- Array2D.init listaVertice.Length listaVertice.Length (fun linha coluna -> 0)
         
 
     member this.exibeVertices =
         printf "%A" listaVertice
+
 
        
 

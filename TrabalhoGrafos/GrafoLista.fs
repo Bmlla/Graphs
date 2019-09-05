@@ -9,10 +9,11 @@ type elemento = {
 }
 
 type GrafoLista() =
-    inherit Grafo(false, false)
+    inherit Grafo(false, true)
 
     let mutable listaVertice = []
     let mutable listaArestas = [|[||]|]
+    let mutable quantidadeArestas = 0
 
     override this.inserirVertice (nomeVertice :string) =
         listaVertice <- List.append listaVertice [nomeVertice]
@@ -35,6 +36,8 @@ type GrafoLista() =
 
         if not this.isDirecionado then
             listaArestas.[destino] <- Array.append listaArestas.[destino] [|(origem, pesoRecebido)|]
+
+        quantidadeArestas <- quantidadeArestas + 1
         true
 
 
@@ -47,5 +50,17 @@ type GrafoLista() =
 
     override this.retornarVizinhos(vertice :int) =
         listaArestas.[vertice] |> Array.map(fun (x,_) -> x) 
+
+
+    override this.buscarEmLargura(indice :int) =
+    let mutable listaResultado = indice
+
+    let fila = Array.init quantidadeArestas (fun index -> this.retornarVizinhos(indice))
+    fila.[0]
+ 
+    //let filaPrincipal = fila.[0]
+    
+    //fila <- Array.append fila [|listaVertice.[indice]|]
+    //fila <- Array.append fila <| this.retornarVizinhos(indice)
 
     
