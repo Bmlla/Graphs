@@ -19,7 +19,8 @@ let main argv =
     grafoL.inserirVertice("C")
 
     grafoL.inserirAresta(0,1)
-    //printf "%s" <| grafoL.labelVertice(1)
+    grafoL.inserirAresta(0,2)
+    //printf "%A" <| grafoL.retornarVizinhos(0)
     grafoL.imprimirGrafo()
     //grafoM.inserirVertice("A")
     //grafoM.inserirVertice("B")
