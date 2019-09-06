@@ -75,8 +75,10 @@ type GrafoMatriz() =
 
 
     override this.buscarEmLargura(indice :int) =
-    [|0|]
+        [|0|]
 
+    override this.buscarEmProfundidade(indice :int) =
+        [|0|]
 
     member this.refazMatriz vertice =
         matrizArestas <- Array2D.init listaVertice.Length listaVertice.Length (fun linha coluna -> 0)

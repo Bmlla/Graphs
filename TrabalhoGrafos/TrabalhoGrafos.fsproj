@@ -5,6 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Interface.fs" />
+    <Compile Include="Stack.fs" />
     <Compile Include="Line.fs" />
     <Compile Include="Grafo.fs" />
     <Compile Include="GrafoLista.fs" />

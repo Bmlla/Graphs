@@ -2,12 +2,7 @@
 
 open Grafo
 open Line
-open System.Linq
-
-type elemento = {
-    Indice :int
-    Peso :int
-}
+open Stack
 
 type GrafoLista() =
     inherit Grafo(false, true)
@@ -59,24 +54,42 @@ type GrafoLista() =
         let mutable listaExibicao = [|indice|]
 
         fila <- Array.init quantidadeArestas (fun index -> this.retornarVizinhos(indice))
-        this.percorrerLista(fila.[0], listaExibicao)
+        this.PercorrerGrafoEmLargura(fila.[0], listaExibicao)
 
 
-    member this.percorrerLista(listaAtual :int[], listaExibicao :int[]) =
+    member this.PercorrerGrafoEmLargura(listaAtual :int[], listaExibicao :int[]) =
         let mutable listaVertices = listaAtual
         let mutable listaVerificada = listaExibicao
 
         while listaVertices.Length > 0 do
             let vizinhosProximos = this.retornarVizinhos(listaVertices.[0])
-            listaVerificada <- Line.push(listaVerificada, listaVertices.[0])
-            listaVertices <- Line.pop(listaVertices)
+            listaVerificada <- Line.add(listaVerificada, listaVertices.[0])
+            listaVertices <- Line.remove(listaVertices)
 
             for posVizinho in 0 .. vizinhosProximos.Length - 1 do
                 let aindaNaListaDeVertices = Array.contains vizinhosProximos.[posVizinho] listaVertices
                 let jaFoiVerificado = Array.contains vizinhosProximos.[posVizinho] listaVerificada
 
                 if not jaFoiVerificado && not aindaNaListaDeVertices then
-                    listaVertices <- Line.push(listaVertices, vizinhosProximos.[posVizinho])
+                    listaVertices <- Line.add(listaVertices, vizinhosProximos.[posVizinho])
         listaVerificada
 
+
+    override this.buscarEmProfundidade(indice :int) =
+        let mutable listaResultado = indice
+        let mutable fila = [||]
+        let mutable listaExibicao = [|indice|]
+
+
+
+
+    member this.percorreeGrafoEmProfundidade(listaAtual :int[], listaExibicao :int[]) =
+        let mutable listaVertices = listaAtual
+        let mutable listaVerificada = listaExibicao
+
+        for pos in 0 .. listaVertice.Length - 1 do
+            let vizinhosProximos = this.retornarVizinhos(listaArestas.[0])
+
+            for posicaoTupla in 0 .. vizinhosProximos.Length - 1 do
+                listaArestas.[posicaoTupla]
     
