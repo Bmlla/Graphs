@@ -20,6 +20,7 @@ let main argv =
     grafoL.inserirVertice("D")
     grafoL.inserirVertice("E")
     grafoL.inserirVertice("F")
+    grafoL.inserirVertice("G")
 
     grafoL.inserirAresta(0,1,3)
     grafoL.inserirAresta(0,2,5)
@@ -28,6 +29,7 @@ let main argv =
     grafoL.inserirAresta(2,4,8)
     grafoL.inserirAresta(2,5,8)
     grafoL.inserirAresta(4,5,8)
+    grafoL.inserirAresta(6,6,8)
 
     //printf "%A" <| grafoL.retornarVizinhos(0)
     //grafoL.imprimirGrafo()

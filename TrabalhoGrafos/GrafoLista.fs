@@ -1,7 +1,8 @@
 ﻿module GrafoLista
 
 open Grafo
-
+open Line
+open System.Linq
 
 type elemento = {
     Indice :int
@@ -53,14 +54,29 @@ type GrafoLista() =
 
 
     override this.buscarEmLargura(indice :int) =
-    let mutable listaResultado = indice
+        let mutable listaResultado = indice
+        let mutable fila = [||]
+        let mutable listaExibicao = [|indice|]
 
-    let fila = Array.init quantidadeArestas (fun index -> this.retornarVizinhos(indice))
-    fila.[0]
- 
-    //let filaPrincipal = fila.[0]
-    
-    //fila <- Array.append fila [|listaVertice.[indice]|]
-    //fila <- Array.append fila <| this.retornarVizinhos(indice)
+        fila <- Array.init quantidadeArestas (fun index -> this.retornarVizinhos(indice))
+        this.percorrerLista(fila.[0], listaExibicao)
+
+
+    member this.percorrerLista(listaAtual :int[], listaExibicao :int[]) =
+        let mutable listaVertices = listaAtual
+        let mutable listaVerificada = listaExibicao
+
+        while listaVertices.Length > 0 do
+            let vizinhosProximos = this.retornarVizinhos(listaVertices.[0])
+            listaVerificada <- Line.push(listaVerificada, listaVertices.[0])
+            listaVertices <- Line.pop(listaVertices)
+
+            for posVizinho in 0 .. vizinhosProximos.Length - 1 do
+                let aindaNaListaDeVertices = Array.contains vizinhosProximos.[posVizinho] listaVertices
+                let jaFoiVerificado = Array.contains vizinhosProximos.[posVizinho] listaVerificada
+
+                if not jaFoiVerificado && not aindaNaListaDeVertices then
+                    listaVertices <- Line.push(listaVertices, vizinhosProximos.[posVizinho])
+        listaVerificada
 
     
