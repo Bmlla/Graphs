@@ -11,6 +11,7 @@ type GrafoLista() =
     let mutable listaArestas = [|[||]|]
     let mutable quantidadeArestas = 0
 
+
     override this.inserirVertice (nomeVertice :string) =
         listaVertice <- List.append listaVertice [nomeVertice]
         listaArestas <- Array.init listaVertice.Length (fun index -> [||])
@@ -45,7 +46,8 @@ type GrafoLista() =
 
 
     override this.retornarVizinhos(vertice :int) =
-        listaArestas.[vertice] |> Array.map(fun (x,_) -> x) 
+        listaArestas.[vertice] |> 
+        Array.map(fun (x,_) -> x) 
 
 
     override this.buscarEmLargura(indice :int) =
@@ -76,20 +78,23 @@ type GrafoLista() =
 
 
     override this.buscarEmProfundidade(indice :int) =
-        let mutable listaResultado = indice
-        let mutable fila = [||]
-        let mutable listaExibicao = [|indice|]
+        let mutable itensJaPercorridos = [|indice|]
+        this.percorreeGrafoEmProfundidade(indice, itensJaPercorridos)
+
+
+    member this.percorreeGrafoEmProfundidade(indice :int, itensJaPercorridos :int[]) =
+        let mutable itensJaPercorridos = itensJaPercorridos
+        let vizinhos = this.retornarVizinhos(indice)    
+        
+        for item in vizinhos do
+
+            let existeNalista = Array.contains item itensJaPercorridos
+            if not existeNalista then
+                itensJaPercorridos <- Array.append itensJaPercorridos [|item|]
+                this.percorreeGrafoEmProfundidade(item, itensJaPercorridos)
+                printf "%d" indice
+        0
 
 
 
-
-    member this.percorreeGrafoEmProfundidade(listaAtual :int[], listaExibicao :int[]) =
-        let mutable listaVertices = listaAtual
-        let mutable listaVerificada = listaExibicao
-
-        for pos in 0 .. listaVertice.Length - 1 do
-            let vizinhosProximos = this.retornarVizinhos(listaArestas.[0])
-
-            for posicaoTupla in 0 .. vizinhosProximos.Length - 1 do
-                listaArestas.[posicaoTupla]
     

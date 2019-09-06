@@ -33,7 +33,7 @@ let main argv =
 
     //printf "%A" <| grafoL.retornarVizinhos(0)
     //grafoL.imprimirGrafo()
-    printf "%A" <| (grafoL.buscarEmLargura(0) |> Array.map(fun item -> grafoL.labelVertice(item)))
+    grafoL.buscarEmProfundidade(0)
     //grafoM.inserirVertice("A")
     //grafoM.inserirVertice("B")
     //grafoM.inserirVertice("C")
