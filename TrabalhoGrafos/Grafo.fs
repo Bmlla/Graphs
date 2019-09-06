@@ -21,7 +21,7 @@ type Grafo(isDirecionado :bool, isPonderado :bool) =
 
     abstract member buscarEmLargura :int -> int[]
 
-    abstract member buscarEmProfundidade :int -> int
+    abstract member buscarEmProfundidade :int -> unit
     //abstract member introducaoGrafo :unit -> unit
 
     member this.getLetraAlfabeto numeroReferencia =

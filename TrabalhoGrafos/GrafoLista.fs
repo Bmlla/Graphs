@@ -79,21 +79,24 @@ type GrafoLista() =
 
     override this.buscarEmProfundidade(indice :int) =
         let mutable itensJaPercorridos = [|indice|]
-        this.percorreeGrafoEmProfundidade(indice, itensJaPercorridos)
+        this.percorreeGrafoEmProfundidade(indice, itensJaPercorridos, 0)
 
 
-    member this.percorreeGrafoEmProfundidade(indice :int, itensJaPercorridos :int[]) =
+    member this.percorreeGrafoEmProfundidade(indice :int, itensJaPercorridos :int[], contador :int) =
         let mutable itensJaPercorridos = itensJaPercorridos
         let vizinhos = this.retornarVizinhos(indice)    
+
+        if contador < listaVertice.Length then
+            printf "%d" itensJaPercorridos.[itensJaPercorridos.Length - 1]
         
         for item in vizinhos do
-
             let existeNalista = Array.contains item itensJaPercorridos
             if not existeNalista then
-                itensJaPercorridos <- Array.append itensJaPercorridos [|item|]
-                this.percorreeGrafoEmProfundidade(item, itensJaPercorridos)
-                printf "%d" indice
-        0
+                itensJaPercorridos <- Line.add(itensJaPercorridos, item)
+                contador = contador + 1
+                this.percorreeGrafoEmProfundidade(item, itensJaPercorridos, contador)      
+        itensJaPercorridos <- Line.remove(itensJaPercorridos)
+        //itensJaPercorridos <- Line.remove(itensJaPercorridos)
 
 
 
