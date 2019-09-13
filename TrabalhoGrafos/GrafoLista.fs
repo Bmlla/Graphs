@@ -124,8 +124,8 @@ type GrafoLista() =
                         listaBase.[posicaoListaVizinhos].[1] <- pesoAtual 
                     else 
                         listaBase.[posicaoListaVizinhos].[1] <- pesoSomado
+                        listaBase.[posicaoListaVizinhos].[2] <- posicao
 
-                    listaBase.[posicaoListaVizinhos].[2] <- indice
                     listaBase.[posicao].[3] <- fechado                 
 
         listaBase
