@@ -2,12 +2,16 @@
 
 open System
 open Grafo
+open Line
+open Stack
 
 type GrafoMatriz() =
     inherit Grafo(false, true)
 
     let mutable listaVertice = [||]
     let mutable matrizArestas = array2D [[||];[||]]
+    let mutable quantidadeArestas = 0
+    let mutable contagemBuscaProfunda = 0
    
 
 
@@ -75,10 +79,52 @@ type GrafoMatriz() =
 
 
     override this.buscarEmLargura(indice :int) =
-        [|0|]
+     let mutable listaResultado = indice
+     //let mutable fila = [||]
+     let mutable listaExibicao = [|indice|]
+
+     let fila = this.retornarVizinhos(indice)
+     this.PercorrerGrafoEmLargura(fila, listaExibicao)
+
+
+    member this.PercorrerGrafoEmLargura(listaAtual :int[], listaExibicao :int[]) =
+     let mutable listaVertices = listaAtual
+     let mutable listaVerificada = listaExibicao
+
+     while listaVertices.Length > 0 do
+         let vizinhosProximos = this.retornarVizinhos(listaVertices.[0])
+         listaVerificada <- Line.add(listaVerificada, listaVertices.[0])
+         listaVertices <- Line.remove(listaVertices)
+
+         for posVizinho in 0 .. vizinhosProximos.Length - 1 do
+             let aindaNaListaDeVertices = Array.contains vizinhosProximos.[posVizinho] listaVertices
+             let jaFoiVerificado = Array.contains vizinhosProximos.[posVizinho] listaVerificada
+
+             if not jaFoiVerificado && not aindaNaListaDeVertices then
+                 listaVertices <- Line.add(listaVertices, vizinhosProximos.[posVizinho])
+     listaVerificada
+
 
     override this.buscarEmProfundidade(indice :int) =
-        printf ""
+     let mutable itensJaPercorridos = [|indice|]
+     this.percorreeGrafoEmProfundidade(indice, itensJaPercorridos)
+
+
+    member this.percorreeGrafoEmProfundidade(indice :int, itensJaPercorridos :int[]) =
+     let mutable itensJaPercorridos = itensJaPercorridos
+     let vizinhos = this.retornarVizinhos(indice)   
+
+     contagemBuscaProfunda <- (contagemBuscaProfunda + 1)
+     if contagemBuscaProfunda <= listaVertice.Length then
+        printf "%d" itensJaPercorridos.[itensJaPercorridos.Length - 1]
+
+     for item in vizinhos do
+         let existeNalista = Array.contains item itensJaPercorridos
+         if not existeNalista then
+             itensJaPercorridos <- Stack.push(itensJaPercorridos, item)
+             this.percorreeGrafoEmProfundidade(item, itensJaPercorridos) 
+     itensJaPercorridos <- Stack.pop(itensJaPercorridos)
+
 
     member this.refazMatriz vertice =
         matrizArestas <- Array2D.init listaVertice.Length listaVertice.Length (fun linha coluna -> 0)
@@ -87,8 +133,11 @@ type GrafoMatriz() =
     member this.exibeVertices =
         printf "%A" listaVertice
 
+    
 
-       
+    override this.buscarDijkstra(indice :int) =
+        let listaBase = Array.init listaVertice.Length (fun x -> [||])
+        listaBase.[0].[0]
 
     
 

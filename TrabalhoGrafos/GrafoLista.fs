@@ -10,6 +10,7 @@ type GrafoLista() =
     let mutable listaVertice = []
     let mutable listaArestas = [|[||]|]
     let mutable quantidadeArestas = 0
+    let mutable contagemBuscaProfunda = 0
 
 
     override this.inserirVertice (nomeVertice :string) =
@@ -79,25 +80,45 @@ type GrafoLista() =
 
     override this.buscarEmProfundidade(indice :int) =
         let mutable itensJaPercorridos = [|indice|]
-        this.percorreeGrafoEmProfundidade(indice, itensJaPercorridos, 0)
+        this.percorreeGrafoEmProfundidade(indice, itensJaPercorridos)
 
 
-    member this.percorreeGrafoEmProfundidade(indice :int, itensJaPercorridos :int[], contador :int) =
+    member this.percorreeGrafoEmProfundidade(indice :int, itensJaPercorridos :int[]) =
         let mutable itensJaPercorridos = itensJaPercorridos
-        let vizinhos = this.retornarVizinhos(indice)    
+        let vizinhos = this.retornarVizinhos(indice)   
 
-        if contador < listaVertice.Length then
+        contagemBuscaProfunda <- (contagemBuscaProfunda + 1)
+        if contagemBuscaProfunda <= listaVertice.Length then
             printf "%d" itensJaPercorridos.[itensJaPercorridos.Length - 1]
-        
+
         for item in vizinhos do
             let existeNalista = Array.contains item itensJaPercorridos
             if not existeNalista then
-                itensJaPercorridos <- Line.add(itensJaPercorridos, item)
-                contador = contador + 1
-                this.percorreeGrafoEmProfundidade(item, itensJaPercorridos, contador)      
-        itensJaPercorridos <- Line.remove(itensJaPercorridos)
-        //itensJaPercorridos <- Line.remove(itensJaPercorridos)
+                itensJaPercorridos <- Stack.push(itensJaPercorridos, item)
+                this.percorreeGrafoEmProfundidade(item, itensJaPercorridos) 
+        itensJaPercorridos <- Stack.pop(itensJaPercorridos)
 
 
+    override this.buscarDijkstra(indice :int) =
+        let mutable listaBase = Array.init listaVertice.Length (fun item -> Array.init 3 (fun itemSec -> 0))
+        let listaVizinhosPrimaria = this.retornarVizinhos(indice)
+        let mutable posicaoListaVizinhos = 0
+        let mutable proximoPeso = 0
+        let mutable listaVizinhosSecundaria = [|0|]
+        let mutable pesoAtual = 0
+        let fechado = 1
+        
+        for buscaSecundaria in 0 .. listaVizinhosPrimaria.Length - 1 do
+            posicaoListaVizinhos <- listaVizinhosPrimaria.[buscaSecundaria]
 
-    
+            proximoPeso <- this.existeAresta(indice, posicaoListaVizinhos)
+            pesoAtual <- listaBase.[posicaoListaVizinhos].[0]
+
+            if pesoAtual < proximoPeso then 
+                listaBase.[posicaoListaVizinhos].[0] <- proximoPeso 
+            else 
+                listaBase.[posicaoListaVizinhos].[0] <- pesoAtual
+
+            listaBase.[posicaoListaVizinhos].[1] <- indice
+            //listaBase.[listaVizinhosPrimaria.[buscaSecundaria]].[2] <- fechado
+        listaBase
