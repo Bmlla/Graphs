@@ -100,25 +100,32 @@ type GrafoLista() =
 
 
     override this.buscarDijkstra(indice :int) =
-        let mutable listaBase = Array.init listaVertice.Length (fun item -> Array.init 3 (fun itemSec -> 0))
-        let listaVizinhosPrimaria = this.retornarVizinhos(indice)
+        let mutable listaBase = Array.init listaVertice.Length  (fun item -> Array.init 4 (fun itemSec -> 0))
+        let mutable listaVizinhosPrimaria = this.retornarVizinhos(indice)
         let mutable posicaoListaVizinhos = 0
         let mutable proximoPeso = 0
-        let mutable listaVizinhosSecundaria = [|0|]
+        let mutable pesoSomado = 0
         let mutable pesoAtual = 0
         let fechado = 1
         
-        for buscaSecundaria in 0 .. listaVizinhosPrimaria.Length - 1 do
-            posicaoListaVizinhos <- listaVizinhosPrimaria.[buscaSecundaria]
+        for posicao in 0 .. listaBase.Length - 1 do
+            listaBase.[posicao].[0] <- posicao
+            listaVizinhosPrimaria <- this.retornarVizinhos(listaBase.[posicao].[0])
 
-            proximoPeso <- this.existeAresta(indice, posicaoListaVizinhos)
-            pesoAtual <- listaBase.[posicaoListaVizinhos].[0]
+            for buscaSecundaria in 0 .. listaVizinhosPrimaria.Length - 1 do
+                posicaoListaVizinhos <- listaVizinhosPrimaria.[buscaSecundaria]
 
-            if pesoAtual < proximoPeso then 
-                listaBase.[posicaoListaVizinhos].[0] <- proximoPeso 
-            else 
-                listaBase.[posicaoListaVizinhos].[0] <- pesoAtual
+                if listaBase.[posicaoListaVizinhos].[3] <> 1 then
+                    proximoPeso <- this.existeAresta(posicao, posicaoListaVizinhos)
+                    pesoAtual <- listaBase.[posicaoListaVizinhos].[1]
+                    pesoSomado <- listaBase.[posicao].[1] + proximoPeso
 
-            listaBase.[posicaoListaVizinhos].[1] <- indice
-            //listaBase.[listaVizinhosPrimaria.[buscaSecundaria]].[2] <- fechado
+                    if pesoAtual < proximoPeso && pesoAtual <> 0 then 
+                        listaBase.[posicaoListaVizinhos].[1] <- pesoAtual 
+                    else 
+                        listaBase.[posicaoListaVizinhos].[1] <- pesoSomado
+
+                    listaBase.[posicaoListaVizinhos].[2] <- indice
+                    listaBase.[posicao].[3] <- fechado                 
+
         listaBase
