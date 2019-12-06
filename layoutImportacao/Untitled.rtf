@@ -1,0 +1,79 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2509
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\froman\fcharset0 Times-Roman;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww14000\viewh18000\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 - Processo = abstra\'e7\'e3o de programa em execu\'e7\'e3o;\
+- Processos fazem com que sejam simulados \'93multi-threads\'94, formando CPUs virtuais;\
+- 
+\f1 \cf2 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Ter controle sobre m\'faltiplas atividades em paralelo \'e9 algo dif\'edcil para as pessoas realizarem.\
+- Em qualquer sistema de multiprograma\'e7\'e3o, a CPU muda de um processo para outro rapidamente, executando cada um por dezenas ou centenas de milissegundos, simulando pseudo paralelismo;\
+\
+\
+MODELO DE PROCESSO\
+\
+- Os processos s\'e3o organizados de forma sequencial;\
+- Multi-programa\'e7\'e3o \'e9 a troca r\'e1pida de processos pela CPU, simulando um paralelismo;\
+- \'c9 claro que h\'e1 apenas um contador de programa f\'edsico, de maneira que, quando cada processo \'e9 executado, o seu contador de programa l\'f3gico \'e9 carregado para o contador de programa real. \
+- No momento em que ele \'e9 conclu\'eddo, o contador de programa f\'edsico \'e9 salvo no contador de programa l\'f3gico do processo na mem\'f3ria;\
+- Exitems dois tipos de tempo: o do processo e o real;\
+- Quando um processo tem exig\'eancias de tempo real, cr\'edticas como essa, isto \'e9, eventos particulares, t\'eam de ocorrer dentro de um n\'famero espec\'edfico de milissegundos e medidas especiais precisam ser tomadas para assegurar que elas ocorram;\
+- Numa receita de bolo, o cozinheiro \'e9 a CPU, a receita \'e9 o programa (conjunto de isntrucoes para criar algo) e os ingredientes s\'e3o os dados de entrada; O processo \'e9 a atividade, a leitura da receita, busca de ingredientes e preparo do bolo, por exemplo;\
+- Se algo nesse meio ocorrer, o cozinheiro registra onde parou, faz outra coisa, e quando estiver sido tratado, volta para o bolo de onde parou;\
+- O fato de que dois processos em execu\'e7\'e3o est\'e3o operando o mesmo programa n\'e3o importa, eles s\'e3o processos distintos;\
+- Um processo pode ser criado por: Inicializa\'e7\'e3o do sistema, execu\'e7\'e3o de uma chamada de sistema de cria\'e7\'e3o de processo por um processo em execu\'e7\'e3o, solicita\'e7\'e3o de um usu\'e1rio para criar um novo processo ou inicio de uma tarefa em lote;\
+- Processos que ficam em segundo plano para lidar com algumas atividades, como e-mail, p\'e1ginas da web, not\'edcias, impress\'e3o e assim por diante, s\'e3o chamados de daemons.\
+- Muitas vezes, um processo em execu\'e7\'e3o emitir\'e1 chamadas de sistema para criar um ou mais processos novos para ajud\'e1-lo em seu trabalho;\
+- Em sistemas UNIX baseados em comandos que executam X, o novo processo ocupa a janela na qual ele foi iniciado. No Windows, quando um processo \'e9 iniciado, ele n\'e3o tem uma janela, mas ele pode criar uma (ou mais), e a maioria o faz;\
+- Em inicio de tarefa em lote, pense no gerenciamento de estoque ao fim de um dia em uma cadeia de lojas, nesse caso usu\'e1rios podem submeter tarefas em lote ao sistema (possivelmente de maneira remota). Quando o sistema operacional decide que ele tem os recursos para executar outra tarefa, ele cria um novo processo e executa a pr\'f3xima tarefa a partir da fila de entrada nele;\
+- No UNIX, a chamada de sistema para criar processo se chama FORK;\
+- Fork cria uma copia exata do processo que chamou. Normalmente, o processo filho ent\'e3o executa execve ou uma chamada de sistema similar para mudar sua imagem de mem\'f3ria e executar um novo programa;\
+- No Windows, em compara\'e7\'e3o, uma \'fanica chamada de fun\'e7\'e3o Win32, CreateProcess, lida tanto com a cria\'e7\'e3o do processo, quanto com o carga do programa correto no novo processo. \
+- Essa chamada tem 10 par\'e2metros, que incluem o programa a ser executado, os par\'e2metros de linha de comando para alimentar aquele programa, v\'e1rios atributos de seguran\'e7a, bits que controlam se os arquivos abertos s\'e3o herdados, informa\'e7\'f5es sobre prioridades, uma especifica\'e7\'e3o da janela a ser criada para o processo (se houver alguma) e um ponteiro para uma estrutura na qual as informa\'e7\'f5es sobre o processo recentemente criado \'e9 retornada para quem o chamou. Al\'e9m do CreateProcess, Win32 tem mais ou menos 100 outras fun\'e7\'f5es para gerenciar e sincronizar processos e t\'f3picos relacionados.;\
+- Novamente, nenhuma mem\'f3ria que pode ser escrita \'e9 compartilhada;\
+- Um processo pode terminar devido a: Saida normal, Erro fatal, sa\'edda por erro (volunt\'e1rio), morto por outro processo\
+- chamada \'e9 exit em UNIX e ExitProcess no Windows, para dizer que o compilador termina de traduzir um programa;\
+- Erro fatal \'e9 um erro direto do processo, onde ele encerra caso de algo errado. Programas em tela, geralmente apresenta o erro em tela.\
+- Saida por erro, \'e9 quando o erro \'e9 por parte do programa, como uma divis\'e3o por zero por exemplo;\
+- Em alguns sistemas (por exemplo, UNIX), um processo pode dizer ao sistema operacional que ele gostaria de lidar sozinho com determinados erros, nesse caso o processo \'e9 sinalizado (interrompido), em vez de terminado quando ocorrer um dos erros;\
+- Morte por outro processo: Em UNIX, essa chamada \'e9 kill. A fun\'e7\'e3o Win32 correspondente \'e9 TerminateProcess; Em alguns sistemas, quando um processo \'e9 finalizado, seja voluntariamente ou de outra maneira, todos os processos que ele criou s\'e3o de imediato mortos tamb\'e9m. No entanto, nem o UNIX, tampouco o Windows, funcionam dessa maneira;\
+\
+HIERARQUIAS DE PROCESSOS. \
+\
+- Processo pai e filho se associam de certa forma;\
+- No UNIX, sao formados grupos de processos. Quando um sinal de teclado eh enviado, o sinal eh entregue a todos os membros associados com o teclado no momento;\
+- O Windows nao tem hierarquia de processos. O \'fanico ind\'edcio de uma hierarquia ocorre quando um processo \'e9 criado e o pai recebe um identificador especial (chamado de handle) que ele pode usar para controlar o filho. No entanto, ele \'e9 livre para passar esse identificador para algum outro processo, desse modo invalidando a hierarquia;\
+\
+ESTADOS DE PROCESSOS\
+\
+- Processos podem gerar sa\'edda que servem como entrada para outros;\
+- Caso um processo espere uma entrada e ela ainda nao esteja dispon\'edvel, ele deve ser bloqueado ate estar;\
+- Um processo pode ser bloqueado devido ao redirecionamento de processamento para outro processo;\
+- Os processos podem estar no estado de: Execu\'e7\'e3o (realmente usando Cpu no momento), Pronto (execut\'e1vel, porem esperando outro processo ser concluido) e bloqueado (nao vai ser executado ate que algum evento externo aconteca);\
+- escalonamento, isto \'e9, decidir qual processo deve ser executado;\
+- O n\'edvel mais baixo de um SO, contem o escalonador e controla interrup\'e7\'f5es;\
+\
+\
+IMPLEMETACAO DE PROCESSOS\
+\
+- Para organizar os processos, o SO mantem a Tabela de Processos;\
+- Contem estado do processo, contador do programa, pilha, aloca\'e7\'e3o de mem\'f3ria, arquivos abertos e escalonamento;\
+- Ha um local fixo na parte inferior da mem\'f3ria, que se chama vetor de interrup\'e7\'e3o;\
+- Contem o endere\'e7o da rotina de servi\'e7o de interrup\'e7\'e3o. Quando da pau, o contador, palavra de estado e as vezes registradores sao colocados na pilha (atual) pelo hardware de interrup\'e7\'e3o. O PC desvia a execu\'e7\'e3o para o endere\'e7o especificado no vetor de interrup\'e7\'e3o. Isso eh hardware. Como tratar o erro \'e9 software.\
+\
+\pard\pardeftab720\sl280\partightenfactor0
+\cf2 1. O hardware empilha o contador de programa etc. 2. O hardware carrega o novo contador de programa a partir do arranjo de interrup\'e7\'f5es. 3. O vetor de interrup\'e7\'f5es em linguagem de montagem O procedimento em linguagem de montagem salva os registradores. 4. configura uma nova pilha. 5. O servi\'e7o de interrup\'e7\'e3o em C executa (em geral l\'ea e armazena temporariamente a entrada). 6. O escalonador decide qual processo \'e9 o pr\'f3ximo a executar. 7. O procedimento em C retorna para o c\'f3digo em linguagem de montagem. 8. O procedimento em linguagem de montagem inicia o novo processo atual.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf2 \
+\
+MODELAR A MULTIPROGRAMACAO\
+\
+- Suponha que um processo passe uma fra\'e7\'e3o p de seu tempo esperando que os dispositivos de E/S sejam conclu\'eddos. Com n processos na mem\'f3ria ao mesmo tempo, a probabilidade de que todos os processos n estejam esperando para E/S (caso em que a CPU estar\'e1 ociosa) \'e9 pn . A utiliza\'e7\'e3o da CPU \'e9 ent\'e3o dada pela f\'f3rmula Utiliza\'e7\'e3o da CPU = 1 \'96 pn;\
+\
+\
+\
+\
+}

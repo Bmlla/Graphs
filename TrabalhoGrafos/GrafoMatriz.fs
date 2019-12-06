@@ -5,8 +5,8 @@ open Grafo
 open Line
 open Stack
 
-type GrafoMatriz() =
-    inherit Grafo(false, true)
+type GrafoMatriz(isDirecionado, isPonderado) =
+    inherit Grafo(isDirecionado, isPonderado) //false, true
 
     let mutable listaVertice = [||]
     let mutable matrizArestas = array2D [[||];[||]]
@@ -139,5 +139,14 @@ type GrafoMatriz() =
         let listaBase = Array.init listaVertice.Length (fun x -> [||])
         listaBase.[0].[0]
 
-    
 
+    override this.coloreGrafoWP() =
+        let listaCores = List.init listaVertice.Length (fun index -> this.getLetraAlfabeto index)
+
+        let mutable matrizDeControle = Array.init listaVertice.Length (fun index -> Array.init 3 (fun indiceVertice -> if index = 0 then listaVertice.[index] else ""))
+        matrizArestas <- matrizArestas
+        matrizDeControle
+
+
+    override this.arvoreMinimaPrim(verticeInicial :int) = 
+        [|""|]

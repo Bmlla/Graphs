@@ -4,14 +4,14 @@ open Grafo
 open Line
 open Stack
 
-type GrafoLista() =
-    inherit Grafo(false, true)
+type GrafoLista(isDirecionado, isPonderado) =
+    inherit Grafo(isDirecionado, isPonderado) //false, true
 
     let mutable listaVertice = []
     let mutable listaArestas = [|[||]|]
     let mutable quantidadeArestas = 0
     let mutable contagemBuscaProfunda = 0
-
+    
 
     override this.inserirVertice (nomeVertice :string) =
         listaVertice <- List.append listaVertice [nomeVertice]
@@ -129,3 +129,98 @@ type GrafoLista() =
                     listaBase.[posicao].[3] <- fechado                 
 
         listaBase
+
+
+    member this.getQuantidadeDeVizinhos verticeOrigem =
+        let a = this.retornarVizinhos(verticeOrigem).Length.ToString()
+        a
+
+    override this.coloreGrafoWP() =
+        let listaCores = List.init listaVertice.Length (fun index -> this.getLetraAlfabeto index)
+
+        let mutable matrizDeControle = Array.init listaVertice.Length (
+                                fun index -> Array.init 3 (
+                                    fun indiceVertice -> match indiceVertice with 
+                                                         | 0 -> listaVertice.[index]
+                                                         | 1 -> this.getQuantidadeDeVizinhos(index)
+                                                         | _ -> ""
+                                )
+                               )
+        matrizDeControle
+
+    member this.compararListas (lista1 :int[], lista2 :int list) =
+        let lista1Convertida = lista1 |> Array.toList
+        let mutable listaDiferenca = []
+        for posLista1 in lista2 do
+            if (List.contains posLista1 lista1Convertida) then
+                listaDiferenca <- List.append listaDiferenca [posLista1]
+            else
+                ()
+        listaDiferenca
+
+    member this.getMenorPeso(listaVertices :int[], verticeOrigem :int, verticesGrafo :int list) =
+        let mutable menorPeso = 0
+        let mutable verticeMenorPeso = verticeOrigem
+        let mutable verticeOrigemBackup = verticeOrigem
+
+        let mutable listaVizinhosFaltante = this.compararListas(listaVertices, verticesGrafo)
+
+        if verticesGrafo.Length = 1 then
+            listaVizinhosFaltante <- (verticesGrafo.[0] |> this.retornarVizinhos) |> Array.toList
+            verticeOrigemBackup <- verticesGrafo.[0];
+
+
+        for verticeDaVez in listaVizinhosFaltante do
+            let pesoVertice = if verticeDaVez > verticeOrigemBackup then this.existeAresta(verticeOrigemBackup, verticeDaVez) else this.existeAresta(verticeDaVez, verticeOrigemBackup)
+            if menorPeso = 0 then
+                menorPeso <- pesoVertice
+                verticeMenorPeso <- verticeDaVez
+
+            if pesoVertice < menorPeso && this.vizinhoPossivel(listaVertices, verticeDaVez) then
+                menorPeso <- pesoVertice
+                verticeMenorPeso <- verticeDaVez
+        verticeMenorPeso
+
+
+    member this.vizinhoPossivel(verticesGrafo :int[], vizinhoEscolhido :int) =
+        let listaVerticesGrafo = List.init verticesGrafo.Length (fun item -> verticesGrafo.[item])
+        List.contains vizinhoEscolhido listaVerticesGrafo
+
+
+
+    override this.arvoreMinimaPrim(verticeInicial :int) = 
+        let mutable conjuntoSolucao = [||]
+        let mutable verticesGrafo = []
+        let mutable verticesGrafoEmNumeros = []
+        let mutable verticeConsulta = verticeInicial
+        let mutable vizinhosDoverticeEscolhido = [|0|]
+        let mutable pesoAnterior = 0
+
+        verticesGrafo <- listaVertice 
+                            |> List.filter(fun item -> item <> this.getLetraAlfabeto(verticeInicial).ToString())
+
+
+        verticesGrafoEmNumeros <- this.transformarListaDeLetrasEmNumero verticesGrafo
+
+        while verticesGrafo.Length > 0 do
+            vizinhosDoverticeEscolhido <- verticeConsulta |> this.retornarVizinhos
+            let vizinhoEscolhido = this.getMenorPeso(vizinhosDoverticeEscolhido, verticeConsulta, verticesGrafoEmNumeros)
+            pesoAnterior <- verticeConsulta
+            verticeConsulta <- vizinhoEscolhido
+
+            if verticesGrafoEmNumeros.Length = 1 then
+                pesoAnterior <- verticesGrafoEmNumeros.[0]
+                verticesGrafo <- []
+            else
+                verticesGrafo <- verticesGrafo 
+                                    |> List.filter(fun item -> item <> this.getLetraAlfabeto(vizinhoEscolhido).ToString())
+
+                verticesGrafoEmNumeros <- this.transformarListaDeLetrasEmNumero verticesGrafo
+
+
+
+            let conjuntoItem = (this.getLetraAlfabeto(pesoAnterior).ToString() + this.getLetraAlfabeto(vizinhoEscolhido).ToString())
+            conjuntoSolucao <- Array.append conjuntoSolucao [|conjuntoItem|]
+        conjuntoSolucao
+
+//if indiceVertice = 0 then listaVertice.[index] else ""

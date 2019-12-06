@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FileHandler.fs" />
     <Compile Include="Interface.fs" />
     <Compile Include="Stack.fs" />
     <Compile Include="Line.fs" />
